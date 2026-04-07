@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  nombre       String
+  rol          Rol           @default(VENDEDOR)
+  activo       Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  presupuestos Presupuesto[]
+}
+
+enum Rol {
+  ADMIN
+  VENDEDOR
+}
+
+model Cliente {
+  id           String        @id @default(uuid())
+  nombre       String
+  ruc          String?
+  direccion    String?
+  createdAt    DateTime      @default(now())
+  presupuestos Presupuesto[]
+}
+
+model Presupuesto {
+  id             String      @id @default(uuid())
+  numero         String      @unique
+  serie          String      @default("03")
+  correlativo    Int
+  fecha          DateTime    @default(now())
+  fechaEntrega   DateTime?
+  estado         Estado      @default(BORRADOR)
+  obraNombre     String
+  obraDireccion  String
+  tiempoEntrega  String?
+  subtotal       Decimal     @db.Decimal(10, 2)
+  descuento      Decimal     @default(0) @db.Decimal(10, 2)
+  total          Decimal     @db.Decimal(10, 2)
+  incluyeIgv     Boolean     @default(true)
+  notas          String?
+  cliente        Cliente     @relation(fields: [clienteId], references: [id])
+  clienteId      String
+  vendedor       User        @relation(fields: [vendedorId], references: [id])
+  vendedorId     String
+  items          Item[]
+  diagramas      Diagrama[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+enum Estado {
+  BORRADOR
+  EMITIDO
+  APROBADO
+  RECHAZADO
+  CANCELADO
+}
+
+model Item {
+  id             String      @id @default(uuid())
+  orden          Int
+  producto       String
+  sistema        String?
+  descripcion    String
+  altura         Decimal?    @db.Decimal(8, 2)
+  ancho          Decimal?    @db.Decimal(8, 2)
+  cantidad       Int         @default(1)
+  precioUnitario Decimal     @db.Decimal(10, 2)
+  subtotal       Decimal     @db.Decimal(10, 2)
+  presupuesto    Presupuesto @relation(fields: [presupuestoId], references: [id], onDelete: Cascade)
+  presupuestoId  String
+}
+
+model Diagrama {
+  id            String      @id @default(uuid())
+  orden         Int
+  titulo        String
+  subtitulo     String?
+  svgCode       String      @db.Text
+  precio        Decimal?    @db.Decimal(10, 2)
+  prompt        String?     @db.Text
+  presupuesto   Presupuesto @relation(fields: [presupuestoId], references: [id], onDelete: Cascade)
+  presupuestoId String
+}

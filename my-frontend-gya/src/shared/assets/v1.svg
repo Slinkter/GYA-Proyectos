@@ -1,0 +1,17 @@
+<svg width="600" height="500" viewBox="0 0 1700 1500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1700" height="1500" fill="white" />
+
+  <rect x="100" y="100" width="1500" height="1200" fill="none" stroke="#555555" stroke-width="40" />
+
+  <rect x="120" y="120" width="740" height="1160" fill="#E0F7FA" stroke="#888888" stroke-width="20" />
+  <line x1="140" y1="140" x2="840" y2="1260" stroke="white" stroke-width="2" opacity="0.5" /> <rect x="840" y="120" width="740" height="1160" fill="#E0F7FA" stroke="#888888" stroke-width="20" />
+  <line x1="860" y1="140" x2="1560" y2="1260" stroke="white" stroke-width="2" opacity="0.5" /> <rect x="820" y="600" width="40" height="200" rx="10" fill="#333333" />
+
+  <line x1="100" y1="1350" x2="1600" y2="1350" stroke="black" stroke-width="3" />
+  <path d="M100 1350 l30 -10 v20 z M1600 1350 l-30 -10 v20 z" fill="black" /> <text x="850" y="1420" font-family="Arial" font-size="60" text-anchor="middle" font-weight="bold">1500 mm</text>
+
+  <line x1="50" y1="100" x2="50" y2="1300" stroke="black" stroke-width="3" />
+  <path d="M50 100 l-10 30 h20 z M50 1300 l-10 -30 h20 z" fill="black" /> <text x="30" y="700" font-family="Arial" font-size="60" text-anchor="middle" font-weight="bold" transform="rotate(-90, 30, 700)">1200 mm</text>
+
+  <text x="850" y="60" font-family="Arial" font-size="40" text-anchor="middle" fill="#555">VENTANA CORREDIZA - SERIE 20</text>
+</svg>
