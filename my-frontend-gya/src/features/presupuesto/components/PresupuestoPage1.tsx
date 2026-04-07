@@ -99,9 +99,12 @@ export function PresupuestoPage1({ presupuesto }: PresupuestoPage1Props) {
         <div className="mb-3">
           <div className="font-bold text-[13px] mb-1">Costo del Presupuesto</div>
           <ul className="list-disc pl-[22px] text-[12px] leading-relaxed">
-            <li>TOTAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S/ {presupuesto.totalBruto.toFixed(2)}</li>
+            <li>SUBTOTAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S/ {presupuesto.totalBruto.toFixed(2)}</li>
             <li className="text-[#cc0000]">Descuento comercial (-) S/ {presupuesto.descuento.toFixed(2)}</li>
-            <li className="font-bold">TOTAL (Incluye I.G.V.) &nbsp;&nbsp;&nbsp;&nbsp;S/ {presupuesto.totalNeto.toFixed(2)}</li>
+            {presupuesto.incluyeIgv && (
+              <li>I.G.V. (18%) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S/ {((presupuesto.totalBruto - presupuesto.descuento) * 0.18).toFixed(2)}</li>
+            )}
+            <li className="font-bold">TOTAL {presupuesto.incluyeIgv ? '(Incluye I.G.V.)' : '(No incluye I.G.V.)'} &nbsp;&nbsp;&nbsp;&nbsp;S/ {presupuesto.totalNeto.toFixed(2)}</li>
           </ul>
         </div>
 

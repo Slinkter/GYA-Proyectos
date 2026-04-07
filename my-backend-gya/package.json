@@ -2,7 +2,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/main.js",
-    "start:dev": "ts-node src/main.ts",
+    "start:dev": "cross-env PORT=3002 ts-node src/main.ts",
     "seed": "npx prisma db seed"
   },
   "dependencies": {

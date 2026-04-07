@@ -82,6 +82,21 @@ export default function FormCabecera({ data, updateField }: FormCabeceraProps) {
             className="w-full px-4 py-2.5 bg-gray-50 border-none rounded-xl text-sm font-medium focus:ring-2 focus:ring-[var(--color-gna-blue)] transition-all"
           />
         </div>
+
+        <div className="flex items-center gap-3 px-1 pt-4">
+          <label className="relative inline-flex items-center cursor-pointer group">
+            <input 
+              type="checkbox" 
+              checked={data.incluyeIgv}
+              onChange={(e) => updateField('incluyeIgv', e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-gna-blue)]"></div>
+            <span className="ms-3 text-xs font-black text-gray-500 uppercase tracking-tighter group-hover:text-[var(--color-gna-blue)] transition-colors">
+              Incluir IGV (18%)
+            </span>
+          </label>
+        </div>
       </div>
     </div>
   );

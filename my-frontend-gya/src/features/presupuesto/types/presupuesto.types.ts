@@ -3,7 +3,12 @@ export interface ProductoItem {
   producto: string;      // "VENTANA" | "MAMPARA" | "ARENADO" | "SERVICIO"
   descripcion: string;   // puede incluir saltos de línea con \n
   cantidad: number;
-  total: number;
+  precioUnitario?: number;
+  subtotal?: number;
+  total: number;         // Campo legado/calculado
+  altura?: number;
+  ancho?: number;
+  sistema?: string;
 }
 
 export interface DiagramaSVG {
@@ -12,6 +17,7 @@ export interface DiagramaSVG {
   subtitulo: string;     // "Incoloro 8 mm"
   svgCode: string;       // SVG completo generado por el prompt técnico
   precio: number;
+  promptOriginal?: string;
 }
 
 export interface Presupuesto {
@@ -23,11 +29,13 @@ export interface Presupuesto {
   direccion: string;     // "Calle Sierra Negra - ATE"
   tipoServicio: string;  // "Servicio de Venta" | "Servicio de Arenado"
   productos: ProductoItem[];
+  incluyeIgv: boolean;   // Nuevo campo
   totalBruto: number;
   descuento: number;     // 0 si no hay descuento
   totalNeto: number;
   tiempoEntrega: string; // "3-4 días hábiles (*)"
   diagramas: DiagramaSVG[];
+  notas?: string;
 }
 
 export interface SVGParams {

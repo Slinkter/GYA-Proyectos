@@ -7,6 +7,7 @@ import FormCabecera from '@/features/presupuesto/components/FormCabecera';
 import AgregadorInteligente from '@/features/presupuesto/components/AgregadorInteligente';
 import ListadoItems from '@/features/presupuesto/components/ListadoItems';
 import { FileText, Save, X, Printer, Calculator, Sparkles } from 'lucide-react';
+import { generateTechnicalSVG } from '@/features/presupuesto/utils/svgGenerator';
 
 export default function NuevoPresupuestoPage() {
   const router = useRouter();
@@ -50,20 +51,31 @@ export default function NuevoPresupuestoPage() {
         producto: dataIA.producto,
         descripcion: dataIA.descripcion_formateada,
         cantidad: 1,
-        total: dataIA.precio_sugerido_base || 0
+        total: dataIA.precio_sugerido_base || 0,
+        ancho: dataIA.datos_tecnicos?.ancho,
+        altura: dataIA.datos_tecnicos?.alto,
+        sistema: dataIA.datos_tecnicos?.sistema
       };
       
       const updatedProductos = [...data.productos.filter(p => p.producto !== ''), newProduct];
       updateField('productos', updatedProductos);
       
-      // Si hay datos técnicos, podríamos agregar un diagrama si quisiéramos en la fase 3
+      // Si hay datos técnicos, agregamos un diagrama
       if (dataIA.datos_tecnicos) {
+        const svgCode = generateTechnicalSVG({
+          tipo: dataIA.producto,
+          ancho: dataIA.datos_tecnicos.ancho,
+          alto: dataIA.datos_tecnicos.alto,
+          configuracion: dataIA.datos_tecnicos.configuracion
+        });
+
         const newDiagram = {
           id: Math.random().toString(36).substring(2, 9),
           titulo: `${dataIA.producto} – ${dataIA.datos_tecnicos.ancho}x${dataIA.datos_tecnicos.alto} mm`,
           subtitulo: dataIA.datos_tecnicos.cristal,
-          svgCode: '', // Se generará visualmente en el renderizado
-          precio: 0
+          svgCode: svgCode,
+          precio: 0,
+          promptOriginal: prompt
         };
         updateField('diagramas', [...data.diagramas, newDiagram]);
       }
@@ -177,6 +189,7 @@ export default function NuevoPresupuestoPage() {
             <div className="bg-white/40 backdrop-blur-md rounded-[2.5rem] border border-gray-100 p-8 min-h-[600px] shadow-sm relative">
               <ListadoItems 
                 productos={data.productos.filter(p => p.producto !== '')} 
+                diagramas={data.diagramas}
                 onUpdate={updateProducto}
                 onRemove={removeProducto}
               />

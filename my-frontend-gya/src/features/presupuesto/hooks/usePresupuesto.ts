@@ -37,6 +37,7 @@ export function usePresupuesto(initial?: Partial<PresupuestoType>) {
     tipoServicio: initial?.tipoServicio || 'Servicio de Venta',
     productos: initial?.productos || [{ id: generateId(), producto: '', descripcion: '', cantidad: 1, total: 0 }],
     diagramas: initial?.diagramas || [],
+    incluyeIgv: initial?.incluyeIgv ?? true,
     totalBruto: initial?.totalBruto || 0,
     descuento: initial?.descuento || 0,
     totalNeto: initial?.totalNeto || 0,
@@ -94,17 +95,56 @@ export function usePresupuesto(initial?: Partial<PresupuestoType>) {
     }));
   
   const calcularTotales = () => {
-    const totalBruto = data.productos.reduce((sum, p) => sum + (p.total || 0), 0);
+    const subtotal = data.productos.reduce((sum, p) => sum + (p.total || 0), 0);
     const descuento = data.descuento || 0;
-    const igv = (totalBruto - descuento) * 0.18;
-    const totalNeto = totalBruto - descuento + igv;
-    setData(prev => ({ ...prev, totalBruto, totalNeto }));
+    const baseImponible = subtotal - descuento;
+    
+    let totalNeto;
+    if (data.incluyeIgv) {
+      const igv = baseImponible * 0.18;
+      totalNeto = baseImponible + igv;
+    } else {
+      totalNeto = baseImponible;
+    }
+    
+    setData(prev => ({ ...prev, totalBruto: subtotal, totalNeto }));
   };
   
   const guardar = async (): Promise<PresupuestoType | null> => {
     calcularTotales();
     try {
-      const saved = await presupuestoApi.create(data);
+      // Transformar datos para el backend
+      const payload = {
+        obraNombre: data.obra,
+        obraDireccion: data.direccion,
+        tiempoEntrega: data.tiempoEntrega,
+        clienteNombre: data.cliente,
+        clienteRuc: data.ruc,
+        incluyeIgv: data.incluyeIgv,
+        subtotal: data.totalBruto,
+        descuento: data.descuento,
+        total: data.totalNeto,
+        notas: data.notas,
+        items: data.productos.map(p => ({
+          producto: p.producto,
+          sistema: p.sistema,
+          descripcion: p.descripcion,
+          altura: p.altura,
+          ancho: p.ancho,
+          cantidad: p.cantidad,
+          precioUnitario: p.precioUnitario || (p.cantidad > 0 ? p.total / p.cantidad : 0),
+          subtotal: p.total
+        })),
+        diagramas: data.diagramas.map(d => ({
+          titulo: d.titulo,
+          subtitulo: d.subtitulo,
+          svgCode: d.svgCode,
+          precio: d.precio,
+          promptOriginal: d.promptOriginal
+        }))
+      };
+
+      const saved = await presupuestoApi.create(payload as any);
       if (saved && typeof saved === 'object') {
         setPresupuestos(prev => [...prev, saved as PresupuestoType]);
       }

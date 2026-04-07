@@ -3,7 +3,7 @@ import { useAuthStore } from '@/store/authStore';
 import { toast } from 'react-hot-toast';
 
 interface LoginCredentials {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -36,31 +36,34 @@ export const authApi = {
 };
 
 export interface CreatePresupuestoData {
-  numero?: string;
-  fecha?: string;
-  cliente: string;
-  ruc: string;
-  obra: string;
-  direccion: string;
-  tipoServicio: string;
-  productos: Array<{
-    id: string;
+  obraNombre: string;
+  obraDireccion: string;
+  tiempoEntrega?: string;
+  clienteNombre: string;
+  clienteRuc?: string;
+  clienteDireccion?: string;
+  incluyeIgv: boolean;
+  subtotal: number;
+  descuento: number;
+  total: number;
+  notas?: string;
+  items: Array<{
     producto: string;
+    sistema?: string;
     descripcion: string;
+    altura?: number;
+    ancho?: number;
     cantidad: number;
-    total: number;
+    precioUnitario: number;
+    subtotal: number;
   }>;
   diagramas: Array<{
-    id: string;
     titulo: string;
-    subtitulo: string;
+    subtitulo?: string;
     svgCode: string;
-    precio: number;
+    precio?: number;
+    promptOriginal?: string;
   }>;
-  totalBruto: number;
-  descuento: number;
-  totalNeto: number;
-  tiempoEntrega: string;
 }
 
 export const presupuestoApi = {

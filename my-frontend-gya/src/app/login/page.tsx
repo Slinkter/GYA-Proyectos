@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -15,7 +15,7 @@ export default function LoginPage() {
     try {
       await authApi.login(credentials);
       toast.success('Bienvenido');
-      router.push('/');
+      router.push('/nuevo');
     } catch {
       // Error handled in api.ts
     } finally {
@@ -31,27 +31,32 @@ export default function LoginPage() {
             <span className="text-white font-black text-xl">G&A</span>
           </div>
         </div>
-        <h1 className="text-2xl font-black mb-6 text-center text-[var(--color-gna-blue)]">Iniciar Sesión</h1>
+        <h1 className="text-2xl font-black mb-6 text-center text-[var(--color-gna-blue)] uppercase font-[Arial]">Iniciar Sesión</h1>
         <div className="space-y-4">
           <input
-            type="text"
-            placeholder="Usuario"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-gna-blue)]"
-            onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+            type="email"
+            placeholder="Correo electrónico"
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-gna-blue)] text-sm font-medium"
+            onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
           />
           <input
             type="password"
             placeholder="Contraseña"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-gna-blue)]"
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-gna-blue)] text-sm font-medium"
             onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
           />
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full p-3 bg-[var(--color-gna-blue)] text-white font-bold rounded-lg hover:bg-[#002a5c] transition-all disabled:opacity-50"
+            className="w-full p-3 bg-[var(--color-gna-blue)] text-white font-black uppercase tracking-widest text-xs rounded-lg hover:bg-black transition-all disabled:opacity-50 active:scale-95 shadow-lg shadow-blue-900/10"
           >
             {isLoading ? 'Ingresando...' : 'Entrar'}
           </button>
+        </div>
+        <div className="mt-6 text-center">
+          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Glass & Aluminum Company S.A.C.</p>
         </div>
       </form>
     </div>
