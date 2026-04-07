@@ -3,10 +3,10 @@
 This document provide high-signal instructions for agents working on the Glass & Aluminum Company S.A.C. budget system.
 
 ## 🛠 Core Commands
-- **Dev Server**: `npm run dev` (http://localhost:3000)
-- **Build Project**: `npm run build`
-- **Linting**: `npm run lint` (ESLint 9)
-- **Verification Order**: `npm run lint` -> `npm run build`
+- **Dev Server**: `pnpm dev` (http://localhost:3001)
+- **Build Project**: `pnpm build`
+- **Linting**: `pnpm lint` (ESLint 9)
+- **Verification Order**: `pnpm lint` -> `pnpm build`
 
 ## 📚 Tech Stack & Quirks
 - **Framework**: Next.js 16 (App Router) - Be aware of v16 breaking changes.
