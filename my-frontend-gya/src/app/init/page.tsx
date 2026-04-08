@@ -2,15 +2,18 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useAuthStore } from '@/store/authStore';
 
 export default function InitPage() {
   const router = useRouter();
+  const logout = useAuthStore((state) => state.logout);
 
   useEffect(() => {
-    localStorage.setItem('presupuestos', '');
-    const timeout = setTimeout(() => router.push('/'), 1500);
+    localStorage.clear();
+    logout();
+    const timeout = setTimeout(() => router.push('/login'), 1500);
     return () => clearTimeout(timeout);
-  }, [router]);
+  }, [router, logout]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">

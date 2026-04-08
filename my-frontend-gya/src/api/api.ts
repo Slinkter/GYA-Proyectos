@@ -8,7 +8,7 @@ interface LoginCredentials {
 }
 
 interface LoginResponse {
-  accessToken: string;
+  token: string;
   user?: unknown;
 }
 
@@ -25,7 +25,7 @@ export const authApi = {
   async login(credentials: LoginCredentials): Promise<LoginResponse> {
     try {
       const { data } = await api.post<LoginResponse>('/auth/login', credentials);
-      useAuthStore.getState().setToken(data.accessToken);
+      useAuthStore.getState().setToken(data.token);
       return data;
     } catch (error: unknown) {
       const err = error as ApiError;
