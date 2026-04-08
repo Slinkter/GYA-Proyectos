@@ -9,6 +9,18 @@
   --color-gna-gray: #F7F7F7;
   --color-gna-light-blue: #e8f0f8;
   --color-gna-border: #d1d5db;
+  --card-bg: #ffffff;
+  --input-bg: #ffffff;
+}
+
+.dark {
+  --background: #1a1a1a;
+  --foreground: #f8f9fa;
+  --color-gna-gray: #2d2d2d;
+  --color-gna-light-blue: #1e3a5f;
+  --color-gna-border: #404040;
+  --card-bg: #2d2d2d;
+  --input-bg: #333333;
 }
 
 @theme inline {
@@ -19,6 +31,8 @@
   --color-gna-black: var(--color-gna-black);
   --color-gna-gray: var(--color-gna-gray);
   --color-gna-light-blue: var(--color-gna-light-blue);
+  --color-card-bg: var(--card-bg);
+  --color-input-bg: var(--input-bg);
   --font-arial: Arial, sans-serif;
   --font-times: 'Times New Roman', serif;
 }

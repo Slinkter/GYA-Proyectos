@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeToggle } from "./ThemeProvider";
 
 export const metadata: Metadata = {
   title: "G&A - Glass & Aluminum Company",
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="es">
       <body className="min-h-full flex flex-col">
         {children}
+        <ThemeToggle />
       </body>
     </html>
   );
